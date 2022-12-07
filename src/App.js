@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import { Suspense } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import TopBarProgress from "react-topbar-progress-indicator";
+import { routes } from "./routes/routes";
 
-function App() {
+TopBarProgress.config({
+  barColors: {
+    "0": "#000",
+    "1.0": "#fff"
+  },
+  shadowBlur: 5
+});
+
+const App = () => {
+  const publicRoutes = routes.filter((route) => route.role.includes('*'));
+  const privateRutes = routes.filter((route) => route.role.includes('user'));
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+
+      <Suspense fallback={<TopBarProgress />}>
+        <Routes>
+          {
+            publicRoutes?.map((route, key) => (
+              <Route key={key} path={route.path} element={<route.element />} />
+            ))
+          }
+          {
+            privateRutes?.map((route, key) => (
+              <Route key={key} path={route.path} element={<route.element />} />
+            ))
+          }
+        </Routes>
+      </Suspense>
+
     </div>
-  );
+  )
 }
 
 export default App;
