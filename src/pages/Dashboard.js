@@ -8,7 +8,7 @@ import Layout from "../components/layout/Layout";
 const Dashboard = () => {
     return (
         <Layout title="Dashbaord | Extremeroot">
-            <div class="w-full">
+            <div className="w-full">
                 <div className="flex items-center justify-between py-4">
                     <div>
                         <h2 className="text-2xl font-semibold">Dashbaord</h2>
